@@ -1,0 +1,911 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Interview Practice Flashcards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            margin: 0;
+            padding: 5px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 95vw;
+            width: 95%;
+            min-height: 90vh;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .header-section {
+            flex-shrink: 0;
+        }
+        
+        .content-section {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .footer-section {
+            flex-shrink: 0;
+        }
+        
+        .logo {
+            margin-bottom: 10px;
+        }
+        
+        .wing {
+            color: #ff6b6b;
+            font-weight: 800;
+            font-size: 1.8em;
+            letter-spacing: 1px;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .sky {
+            color: #4ecdc4;
+            font-weight: 800;
+            font-size: 1.8em;
+            letter-spacing: 1px;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .class-title {
+            font-size: 1.1em;
+            color: #28a745;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+            margin-top: 5px;
+            font-size: 2.2em;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .car-method-info {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #2196f3;
+            text-align: left;
+        }
+        
+        .car-method-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .car-item {
+            margin-bottom: 12px;
+            padding: 10px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 8px;
+            border-left: 3px solid #ff6b6b;
+        }
+        
+        .car-letter {
+            font-weight: bold;
+            color: #ff6b6b;
+            font-size: 1.1em;
+        }
+        
+        .topic-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .topic-button {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .topic-button.active {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            transform: scale(1.05);
+        }
+        
+        .topic-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .flashcard {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px 25px;
+            margin: 20px 0;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-left: 5px solid #ff6b6b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flashcard.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .question-number {
+            font-size: 1.1em;
+            color: #ff6b6b;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: #fff2f2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid #ff6b6b;
+        }
+        
+        .question-text {
+            font-size: 1.2em;
+            color: #333;
+            line-height: 1.6;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .answer-text {
+            font-size: 1.1em;
+            color: #555;
+            line-height: 1.7;
+            font-weight: 500;
+            text-align: left;
+            background: #e8f5e8;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 100%;
+        }
+        
+        .car-structure {
+            background: #f0f8ff;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .car-section {
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
+        .circumstance { background: #fff3e0; border-left: 4px solid #ff9800; }
+        .action { background: #e8f5e8; border-left: 4px solid #4caf50; }
+        .result { background: #e3f2fd; border-left: 4px solid #2196f3; }
+        
+        .car-label {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .flip-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.8em;
+            color: #999;
+            font-style: italic;
+        }
+        
+        .placeholder-text {
+            color: #999;
+            font-style: italic;
+            font-size: 1.3em;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            min-width: 120px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .button:disabled {
+            background: linear-gradient(45deg, #ccc, #999);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .previous-button {
+            background: linear-gradient(45deg, #6f42c1, #9c88ff);
+        }
+        
+        .reset-button {
+            background: linear-gradient(45deg, #6c757d, #495057);
+        }
+        
+        .stats {
+            margin-top: 15px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+                min-height: 85vh;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .flashcard {
+                padding: 20px 15px;
+                min-height: 350px;
+                margin: 15px 0;
+            }
+            
+            .question-text {
+                font-size: 1.1em;
+            }
+            
+            .answer-text {
+                font-size: 1em;
+                padding: 15px;
+            }
+            
+            .button {
+                padding: 12px 20px;
+                font-size: 0.9em;
+                min-width: 100px;
+            }
+            
+            .topic-button {
+                padding: 8px 15px;
+                font-size: 0.8em;
+            }
+            
+            .car-method-info {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <div class="logo">
+                <span class="wing">WING</span> <span class="sky">SKY</span>
+            </div>
+            <div class="class-title">Sophie's Class</div>
+            <h1>🎯 Complete Interview Practice with CAR Method</h1>
+            
+            <div class="car-method-info">
+                <div class="car-method-title">🚗 CAR Method for Experience Questions</div>
+                <div class="car-item">
+                    <span class="car-letter">C</span>ircumstance/Context: When, who, where, why - Set the scene
+                </div>
+                <div class="car-item">
+                    <span class="car-letter">A</span>ction: What you did - Describe your specific actions
+                </div>
+                <div class="car-item">
+                    <span class="car-letter">R</span>esult: What you learned/achieved - Show the outcome and impact
+                </div>
+                <div style="margin-top: 10px; padding: 10px; background: rgba(255,193,7,0.2); border-radius: 8px; font-size: 0.9em; color: #856404;">
+                    <strong>Note:</strong> CAR method applies to Working Experience & Overseas Experience topics
+                </div>
+            </div>
+            
+            <div class="topic-selector">
+                <button class="topic-button active" data-topic="work">Working Experience</button>
+                <button class="topic-button" data-topic="overseas">Overseas Experience</button>
+                <button class="topic-button" data-topic="qualification">Qualification</button>
+                <button class="topic-button" data-topic="introduction">Self Introduction</button>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <div class="flashcard" id="flashcard">
+                <div class="card-inner" id="cardInner">
+                    <div class="card-front">
+                        <div class="placeholder-text">Select a topic and click "Next" to start!</div>
+                    </div>
+                    <div class="card-back">
+                        <div class="placeholder-text">Click the card to flip!</div>
+                    </div>
+                </div>
+                <div class="flip-hint">Click to flip</div>
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <div class="button-container">
+                <button class="button previous-button" id="previousButton" disabled>⬅️ Previous</button>
+                <button class="button" id="nextButton">➡️ Next</button>
+                <button class="button reset-button" id="resetButton">🏠 Start Over</button>
+            </div>
+            
+            <div class="stats" id="stats">
+                Choose a topic to begin practice
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data definitions
+        const workQuestions = [
+            {
+                topic: "Working Experience",
+                number: "1",
+                question: "Tell me about your part-time job experiences.",
+                answer: "During college, I worked part-time at various places like fast food restaurants, bakeries, and cafés to gain service experience. During vacations, I worked at a department store, selling groceries and, during Christmas, in the busy toy section. I interacted with many people, including children and their families. Through these experiences, I realized I enjoy working for people and learned that sincerity and empathy are crucial in the service industry. Also, working with various colleagues allowed me to discover the joy of collaborating with others.",
+                carStructure: {
+                    circumstance: "During college - worked at restaurants, bakeries, cafés, and department store",
+                    action: "Sold groceries, worked in toy section, interacted with diverse customers and families",
+                    result: "Learned importance of sincerity and empathy in service, discovered joy of teamwork"
+                }
+            }
+        ];
+
+        const overseasQuestions = [
+            {
+                topic: "Overseas Experience",
+                number: "1",
+                question: "Have you ever stayed abroad?",
+                answer: "After my second year of college, I went to Chicago for six months to take English language courses. I chose this city because my cousin lived there. During the weekdays, I attended English classes with students from various countries. On weekends, I traveled with them to small towns nearby. It was my first time visiting a foreign country, so I initially felt awkward and scared. However, over time, I began to enjoy the experience and became a more open-minded person. Naturally, my English skills improved as well. I still keep in touch with the friends I made during that time. Learning a foreign language helped me better understand foreign cultures. Later, when I worked as a flight attendant, this experience allowed me to treat passengers without prejudice. Additionally, the joy of living in a multicultural environment inspired me to work with people from different nationalities.",
+                carStructure: {
+                    circumstance: "After second year of college - went to Chicago for 6 months for English courses",
+                    action: "Attended classes with international students, traveled to nearby towns, overcame initial fears",
+                    result: "Became open-minded, improved English, learned to work without prejudice in multicultural environments"
+                }
+            },
+            {
+                topic: "Overseas Experience",
+                number: "2",
+                question: "Have you ever traveled overseas?",
+                answer: "After my first semester of junior year, I went on a two-month solo backpacking trip across several U.S. cities. Initially afraid, I adapted quickly. San Francisco was the most unforgettable city, with its sunsets over the Golden Gate Bridge and Alcatraz from Fisherman's Wharf. This trip made me more independent and broadened my perspective by meeting people from various backgrounds.",
+                carStructure: {
+                    circumstance: "After junior year first semester - two-month solo backpacking trip across U.S. cities",
+                    action: "Overcame initial fears, adapted quickly, explored cities like San Francisco independently",
+                    result: "Became more independent, broadened perspective through meeting diverse people"
+                }
+            },
+            {
+                topic: "Overseas Experience",
+                number: "3",
+                question: "Tell me about your recent travel experience.",
+                answer: "Last summer, I went on a 4 day trip to Fukuoka with my friends. One of the highlights was trying motsunabe, a local hot pot dish, which was incredibly delicious and unique. We also spent time shopping at a drugstore, where I picked up a variety of Japanese beauty products and daily essentials that were high quality. The whole trip was such a great experience, and if I become a flight attendant, I would love to visit Japan again, explore more cities, and enjoy the food and culture even more.",
+                carStructure: {
+                    circumstance: "Last summer - 4-day trip to Fukuoka with friends",
+                    action: "Tried local cuisine (motsunabe), explored drugstores, experienced Japanese culture",
+                    result: "Gained appreciation for Japanese culture, motivated to explore more as future flight attendant"
+                }
+            }
+        ];
+
+        const qualificationQuestions = [
+            {
+                topic: "Qualification",
+                number: "1",
+                question: "What do you think are the most important qualifications of cabin crew?",
+                answer: "Being a professional flight attendant requires many qualities, but I would like to mention enthusiasm and flexibility among them. First of all, enthusiastic people do their best in everything. Flight attendants should do everything to ensure the safety and comfort of passengers and to satisfy them without getting tired throughout the long flight. Next, sometimes the crew have to deal with passengers with unreasonable demands. A flexible flight attendant finds a solution to meet such passengers' needs while not offending them.",
+                writingSteps: {
+                    step1: "Choose 2-3 key qualities that are essential for flight attendants",
+                    step2: "Explain WHY each quality is important for the job",
+                    step3: "Give specific examples of how these qualities help in real situations",
+                    structure: "Qualities → Explanation → Job relevance → Practical application"
+                }
+            },
+            {
+                topic: "Qualification",
+                number: "2",
+                question: "What qualifications do you have to be a flight attendant?",
+                answer: "While working in various service jobs, I found out that I am good at solving problems with flexibility and works enthusiastically in everything. First of all, I do my best in whatever I do. Enthusiastic flight attendants do everything to ensure the safety and comfort of passengers and to satisfy them without getting tired throughout the long flight. Next, sometimes the crew have to deal with passengers with unreasonable demands. A flexible flight attendant finds a solution to meet such passengers' needs while not offending them.",
+                writingSteps: {
+                    step1: "Start with your personal experience that shows these qualities",
+                    step2: "Name the specific qualities you possess",
+                    step3: "Connect each quality to flight attendant duties",
+                    structure: "Personal experience → Your qualities → Job connection → Benefits for passengers"
+                }
+            },
+            {
+                topic: "Qualification",
+                number: "3",
+                question: "Do you have the physical strength required for this job?",
+                answer: "I have the physical strength and stamina necessary for the demands of a flight attendant. I am confident in my ability to handle tasks such as lifting heavy luggage and moving quickly during long flights. I also understand the importance of being physically prepared to assist in emergencies and ensure passenger safety. My fitness level allows me to stay focused, perform well under pressure, and provide excellent service throughout the flight.",
+                writingSteps: {
+                    step1: "State confidently that you have the required physical abilities",
+                    step2: "List specific physical tasks (lifting luggage, long flights, emergencies)",
+                    step3: "Explain how your fitness helps with job performance",
+                    structure: "Confident statement → Specific tasks → Emergency readiness → Performance benefits"
+                }
+            }
+        ];
+
+        const introductionQuestions = [
+            {
+                topic: "Self Introduction",
+                number: "1",
+                question: "Please introduce yourself in a minute! (Version 1)",
+                answer: "Good morning! My name is Sophie. I majored in French Language and Literature at Wing Sky University. As a student, I worked hard in my major subjects and also got involved in various extracurricular activities. These activities allowed me to become more sociable and taught me the joy of teamwork. Enjoying interactions with people, I took on part-time jobs in service areas such as restaurants and cafés. These experiences helped me gain valuable service skills while interacting with people of different genders and ages. I applied to [Airline Name] because I believe that being a flight attendant is the best way to utilize the experiences and skills I've mentioned. Thank you.",
+                writingSteps: {
+                    step1: "Start with greeting and name",
+                    step2: "Mention education background briefly",
+                    step3: "Highlight relevant experiences (activities, part-time jobs)",
+                    step4: "Connect experiences to flight attendant role",
+                    step5: "End with enthusiasm for the airline",
+                    structure: "Greeting → Education → Experiences → Connection to role → Enthusiasm"
+                }
+            },
+            {
+                topic: "Self Introduction",
+                number: "2",
+                question: "Please introduce yourself in a minute! (Version 2)",
+                answer: "Thank you for the opportunity to introduce myself. My name is Sophie, and I graduated from Wing Sky University in 2024 with a bachelor's degree in French Language and Literature. I am passionate about building relationships and providing excellent service. During my time at university, I participated in various extracurricular activities. These activities enhanced my sociability and taught me the value of teamwork. My interest in the service industry led me to work part-time in service areas. These roles allowed me to interact with people of all ages and backgrounds, developing strong service skills and the ability to solve unexpected problems flexibly. I spent six months in Chicago taking English language courses, where I enjoyed the multicultural environment and learned to build connections without prejudice. I believe a career as a flight attendant would allow me to utilize my skills and passion for service and teamwork. I am eager to bring my abilities to your esteemed airline and contribute to the exceptional service you provide. I would be honored to start my career with [Airline Name].",
+                writingSteps: {
+                    step1: "Thank for the opportunity + introduce name and graduation",
+                    step2: "State your passion (service, relationships)",
+                    step3: "Describe university activities and part-time work",
+                    step4: "Mention special experiences (overseas study)",
+                    step5: "Connect all experiences to flight attendant career",
+                    step6: "Express eagerness to contribute to the airline",
+                    structure: "Thanks → Background → Passion → Experiences → Career connection → Contribution desire"
+                }
+            }
+        ];
+
+        // Application state
+        let currentQuestions = [];
+        let currentIndex = -1;
+        let currentTopic = 'work';
+        let isFlipped = false;
+
+        // Initialize application
+        function initializeApp() {
+            try {
+                currentTopic = 'work';
+                currentQuestions = [...workQuestions];
+                resetPractice();
+                setupEventListeners();
+                updateStats();
+            } catch (error) {
+                console.error('Initialization error:', error);
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            try {
+                // Topic buttons
+                const topicButtons = document.querySelectorAll('.topic-button');
+                topicButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        selectTopic(this.getAttribute('data-topic'), this);
+                    });
+                });
+
+                // Navigation buttons
+                const nextButton = document.getElementById('nextButton');
+                const previousButton = document.getElementById('previousButton');
+                const resetButton = document.getElementById('resetButton');
+                const flashcard = document.getElementById('flashcard');
+
+                if (nextButton) nextButton.addEventListener('click', showNext);
+                if (previousButton) previousButton.addEventListener('click', showPrevious);
+                if (resetButton) resetButton.addEventListener('click', resetPractice);
+                if (flashcard) flashcard.addEventListener('click', flipCard);
+            } catch (error) {
+                console.error('Event listener setup error:', error);
+            }
+        }
+
+        // Select topic function
+        function selectTopic(topic, buttonElement) {
+            try {
+                currentTopic = topic;
+                
+                // Update active button
+                document.querySelectorAll('.topic-button').forEach(btn => btn.classList.remove('active'));
+                if (buttonElement) {
+                    buttonElement.classList.add('active');
+                }
+                
+                // Set current questions based on topic
+                switch(topic) {
+                    case 'work':
+                        currentQuestions = [...workQuestions];
+                        break;
+                    case 'overseas':
+                        currentQuestions = [...overseasQuestions];
+                        break;
+                    case 'qualification':
+                        currentQuestions = [...qualificationQuestions];
+                        break;
+                    case 'introduction':
+                        currentQuestions = [...introductionQuestions];
+                        break;
+                    default:
+                        currentQuestions = [...workQuestions];
+                }
+                
+                resetPractice();
+            } catch (error) {
+                console.error('Topic selection error:', error);
+            }
+        }
+
+        // Sound effect
+        function playClickSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(700, audioContext.currentTime);
+                oscillator.frequency.setValueAtTime(500, audioContext.currentTime + 0.1);
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.2);
+            } catch (error) {
+                // Silent fail for audio
+            }
+        }
+
+        // Flip card function
+        function flipCard() {
+            try {
+                if (currentIndex >= 0) {
+                    const flashcard = document.getElementById('flashcard');
+                    if (flashcard) {
+                        flashcard.classList.toggle('flipped');
+                        isFlipped = !isFlipped;
+                        playClickSound();
+                    }
+                }
+            } catch (error) {
+                console.error('Flip card error:', error);
+            }
+        }
+
+        // Update button states
+        function updateButtonStates() {
+            try {
+                const previousButton = document.getElementById('previousButton');
+                if (previousButton) {
+                    previousButton.disabled = currentIndex <= 0;
+                }
+            } catch (error) {
+                console.error('Button state update error:', error);
+            }
+        }
+
+        // Show next card
+        function showNext() {
+            try {
+                playClickSound();
+                
+                if (currentIndex >= currentQuestions.length - 1) {
+                    alert("All cards completed! Please click 'Start Over' to restart or select another topic.");
+                    return;
+                }
+
+                currentIndex++;
+                displayCard();
+            } catch (error) {
+                console.error('Show next error:', error);
+            }
+        }
+
+        // Show previous card
+        function showPrevious() {
+            try {
+                playClickSound();
+                
+                if (currentIndex <= 0) {
+                    return;
+                }
+
+                currentIndex--;
+                displayCard();
+            } catch (error) {
+                console.error('Show previous error:', error);
+            }
+        }
+
+        // Display current card
+        function displayCard() {
+            try {
+                if (currentIndex < 0 || currentIndex >= currentQuestions.length) {
+                    return;
+                }
+
+                const currentQuestion = currentQuestions[currentIndex];
+                const cardInner = document.getElementById('cardInner');
+                const flashcard = document.getElementById('flashcard');
+                
+                if (!cardInner || !flashcard || !currentQuestion) {
+                    return;
+                }
+                
+                // Reset flip state
+                flashcard.classList.remove('flipped');
+                isFlipped = false;
+                
+                // Update card content
+                const cardFront = cardInner.querySelector('.card-front');
+                const cardBack = cardInner.querySelector('.card-back');
+                
+                if (cardFront) {
+                    const hintText = currentQuestion.carStructure ? 
+                        "💡 Click the card to see the CAR structured answer!" :
+                        "💡 Click the card to see the step-by-step writing guide!";
+                    
+                    cardFront.innerHTML = `
+                        <div class="question-number">${currentQuestion.topic} Q${currentQuestion.number}</div>
+                        <div class="question-text">${currentQuestion.question}</div>
+                        <div style="margin-top: 30px; padding: 15px; background: #fff3cd; border-radius: 10px; border: 2px dashed #ffc107;">
+                            <strong>${hintText}</strong>
+                        </div>
+                    `;
+                }
+                
+                // Create CAR structure or writing steps display
+                let structureDisplay = '';
+                if (currentQuestion.carStructure) {
+                    structureDisplay = `
+                        <div class="car-structure">
+                            <div style="text-align: center; font-weight: bold; margin-bottom: 15px; color: #2196f3;">
+                                🚗 CAR Method Structure
+                            </div>
+                            <div class="car-section circumstance">
+                                <div class="car-label">🎯 Circumstance/Context:</div>
+                                <div>${currentQuestion.carStructure.circumstance}</div>
+                            </div>
+                            <div class="car-section action">
+                                <div class="car-label">⚡ Action:</div>
+                                <div>${currentQuestion.carStructure.action}</div>
+                            </div>
+                            <div class="car-section result">
+                                <div class="car-label">🎉 Result:</div>
+                                <div>${currentQuestion.carStructure.result}</div>
+                            </div>
+                        </div>
+                    `;
+                } else if (currentQuestion.writingSteps) {
+                    structureDisplay = `
+                        <div class="car-structure">
+                            <div style="text-align: center; font-weight: bold; margin-bottom: 15px; color: #2196f3;">
+                                📝 Step-by-Step Writing Guide
+                            </div>
+                            <div class="car-section circumstance">
+                                <div class="car-label">📋 Step 1:</div>
+                                <div>${currentQuestion.writingSteps.step1}</div>
+                            </div>
+                            <div class="car-section action">
+                                <div class="car-label">📋 Step 2:</div>
+                                <div>${currentQuestion.writingSteps.step2}</div>
+                            </div>
+                            <div class="car-section result">
+                                <div class="car-label">📋 Step 3:</div>
+                                <div>${currentQuestion.writingSteps.step3}</div>
+                            </div>
+                            ${currentQuestion.writingSteps.step4 ? `
+                                <div class="car-section circumstance">
+                                    <div class="car-label">📋 Step 4:</div>
+                                    <div>${currentQuestion.writingSteps.step4}</div>
+                                </div>
+                            ` : ''}
+                            ${currentQuestion.writingSteps.step5 ? `
+                                <div class="car-section action">
+                                    <div class="car-label">📋 Step 5:</div>
+                                    <div>${currentQuestion.writingSteps.step5}</div>
+                                </div>
+                            ` : ''}
+                            ${currentQuestion.writingSteps.step6 ? `
+                                <div class="car-section result">
+                                    <div class="car-label">📋 Step 6:</div>
+                                    <div>${currentQuestion.writingSteps.step6}</div>
+                                </div>
+                            ` : ''}
+                            <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #17a2b8;">
+                                <div class="car-label" style="color: #17a2b8;">🏗️ Overall Structure:</div>
+                                <div style="font-style: italic; color: #17a2b8;">${currentQuestion.writingSteps.structure}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                if (cardBack) {
+                    cardBack.innerHTML = `
+                        <div class="question-number">${currentQuestion.topic} Q${currentQuestion.number}</div>
+                        <div style="margin-bottom: 20px; font-weight: bold; color: #28a745;">✅ COMPLETE ANSWER:</div>
+                        <div class="answer-text">${currentQuestion.answer.replace(/\n/g, '<br><br>')}</div>
+                        ${structureDisplay}
+                        <div style="margin-top: 20px; padding: 10px; background: #e3f2fd; border-radius: 8px; font-size: 0.9em; color: #1976d2;">
+                            Click again to practice the question
+                        </div>
+                    `;
+                }
+                
+                updateButtonStates();
+                updateStats();
+            } catch (error) {
+                console.error('Display card error:', error);
+            }
+        }
+
+        // Reset practice
+        function resetPractice() {
+            try {
+                playClickSound();
+                
+                currentIndex = -1;
+                isFlipped = false;
+                
+                const cardInner = document.getElementById('cardInner');
+                const flashcard = document.getElementById('flashcard');
+                
+                if (flashcard) {
+                    flashcard.classList.remove('flipped');
+                }
+                
+                if (cardInner) {
+                    const cardFront = cardInner.querySelector('.card-front');
+                    const cardBack = cardInner.querySelector('.card-back');
+                    
+                    if (cardFront) {
+                        cardFront.innerHTML = '<div class="placeholder-text">Click "Next" to start practice with CAR method!</div>';
+                    }
+                    if (cardBack) {
+                        cardBack.innerHTML = '<div class="placeholder-text">Click the card to flip!</div>';
+                    }
+                }
+                
+                updateButtonStates();
+                updateStats();
+            } catch (error) {
+                console.error('Reset practice error:', error);
+            }
+        }
+
+        // Update stats
+        function updateStats() {
+            try {
+                const stats = document.getElementById('stats');
+                if (!stats) return;
+
+                const topicNames = {
+                    'work': 'Working Experience',
+                    'overseas': 'Overseas Experience', 
+                    'qualification': 'Qualification',
+                    'introduction': 'Self Introduction'
+                };
+                
+                const topicName = topicNames[currentTopic] || 'Working Experience';
+                
+                if (currentIndex >= 0) {
+                    const progress = currentIndex + 1;
+                    stats.textContent = `${topicName} Topic • Card ${progress} of ${currentQuestions.length} • CAR Method Practice`;
+                } else {
+                    stats.textContent = `${topicName} Topic • ${currentQuestions.length} cards available • Learn structured answering`;
+                }
+            } catch (error) {
+                console.error('Update stats error:', error);
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                initializeApp();
+            } catch (error) {
+                console.error('DOM initialization error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
